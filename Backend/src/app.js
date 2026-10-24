@@ -72,6 +72,6 @@ yargs(hideBin(process.argv))
   )
   .demandCommand(1, "you need atleast one command")
   .help()
-  .argv();
+  .argv;
 
 export default app;
