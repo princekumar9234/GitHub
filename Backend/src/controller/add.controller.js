@@ -2,6 +2,11 @@ import fs from "fs/promises";
 import path from "path";
 
 export async function addRepo(filePath) {
+  if (!filePath || typeof filePath !== "string") {
+    console.error("Error: Please provide a valid file path.");
+    return;
+  }
+
   const repoPath = path.resolve(process.cwd(), ".YourGit");
   const stagingPath = path.join(repoPath, "staging");
 

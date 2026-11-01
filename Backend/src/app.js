@@ -35,26 +35,31 @@ app.use("/user", authRouter);
 yargs(hideBin(process.argv))
   .command("init", "initialise a new repository", {}, initRepo)
   .command(
-    "add <File>",
+    "add <file>",
     "add a file to the repository",
     (yargs) => {
-      yargs.positional("file", {
+      return yargs.positional("file", {
         describe: "file to add to the staging area",
         type: "string",
       });
     },
-    addRepo,
+    async (argv) => {
+      console.log("File argument:", argv.file);
+      await addRepo(argv.file);
+    },
   )
   .command(
     "commit",
     "commit to staged files",
     (yargs) => {
       yargs.positional("message", {
-        describe: "commit message",
+        describe: "Commit message",
         type: "string",
       });
     },
-    commitRepo,
+    (argv) =>{
+      commitRepo(argv.message);
+    }
   )
   .command("push", "push commit to S3", {}, pushRepo)
   .command("pull", "Pull commit from S3", {}, pullRepo)
@@ -71,7 +76,6 @@ yargs(hideBin(process.argv))
     revertRepo,
   )
   .demandCommand(1, "you need atleast one command")
-  .help()
-  .argv;
+  .help().argv;
 
 export default app;
